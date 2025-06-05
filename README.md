@@ -15,8 +15,8 @@ M.S. in Data Science, City University of New York
 🔗 [LinkedIn](www.linkedin.com/in/ajstraumanscott) • [GitHub](https://github.com/ajsscott)
 
 ## 👀 Quick Links
-- 📊 [Results & Presentation](./results_presentation)
-- 📄 [Methodology Report](./academic_report)
+- 📊 [Presentation of Results](./presentation)
+- 📄 [Academic Report](./report)
 - 📓 [Code & Notebooks](./notebooks)
 - 🧠 [Source Scripts](./src)
 - 🗃️ [Sample Input Data](./data/sample_inputs)
