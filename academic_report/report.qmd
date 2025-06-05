@@ -1,0 +1,215 @@
+---
+title: "Green Resilience, Rising Rents"
+subtitle: "A Spatial Regression Analysis of Climate Investment and Displacement Risk in NYC"
+author:
+  - name: AJ Strauman-Scott
+    orcid: "0009-0000-9091-0697"
+    email: ajstraumanscott@pm.me
+    
+    affiliations:
+      - id: cuny
+        name: City University Of New York (CUNY)
+        department: Department of Data Science
+        city: New York City
+        country: United States of America
+abstract: |
+  This study investigates the relationship between climate resilience infrastructure and patterns of neighborhood change in New York City, with a focus on rent dynamics and potential displacement. Drawing on tract-level demographic indicators, and spatial overlays of resilience project and eviction footprints, the analysis employs a spatial error model to estimate the effects of resilience investments on tract-level log rents from 2013 to 2023. The findings reveal that while the presence of a single resilience project does not significantly affect local rents, the cumulative number of projects is positively and marginally significantly associated with rent increases. Temporal lag effects suggest short-term inflationary pressures that attenuate over time, while spatial lag terms indicate strong geographic spillovers. Demographic covariates—including race, poverty, and educational attainment—exhibit nonlinear and historically conditioned relationships with rent trends, reinforcing the conclusion that resilience investments interact with existing socio-spatial inequalities. The study reveals that resilience investments, though framed as universally beneficial, interact with preexisting inequalities, risking market-driven exclusion.
+
+keywords: 
+  - green gentrification
+  - climate resilience
+  - displacement
+  - spatial regression
+  - environmental justice
+  - urban inequality
+  - housing
+  - New York City
+  - infrastructure planning
+
+date: last-modified
+bibliography: bibliography.bib
+
+---
+
+## Introduction
+
+Urban climate resilience projects—including green infrastructure, flood protection systems, and shoreline defenses—are increasingly central to municipal adaptation strategies, offering ecological benefits and mitigating environmental hazards such as flooding, heat, and air pollution.\citep{diezmartinez2022, miakhel2024} These interventions are often framed as win-win solutions, simultaneously advancing sustainability, equity, and livability.\citep{bai2023, gould2021} Indeed, green infrastructure has been associated with benefits such as stormwater retention, improved air quality, and access to restorative green space.\citep{maantay2018, miakhel2024} However, a growing body of research suggests that such initiatives may inadvertently exacerbate socio-spatial inequalities by triggering 'green gentrification', a process wherein environmental improvements accelerate displacement risks for vulnerable residents.\citep{anguelovski2022green, bouzarovski2018, gou2023,warner2021} Researchers have documented that flood control, park improvements, and urban greening projects are disproportionately sited in lower-income and racially minoritized areas—precisely the communities most vulnerable to climate risk and displacement.\citep{diezmartinez2022, gearin2023}
+
+Despite cities’ efforts to integrate justice-oriented language into climate planning\citep{diezmartinez2022}, the implementation of resilience projects frequently aligns with market-driven redevelopment agendas that prioritize land value growth over equitable outcomes.\citep{byers2021, shi2020} This process, termed 'resilience gentrification'\citep{gould2021}, is a type of green gentrification and reflects a broader tension between climate adaptation and housing justice. These dynamics underscore a critical disconnect between the rhetoric of climate justice and the material outcomes of resilience planning.
+
+NYC is a national hotspot for green gentrification, where projects like the High Line and Prospect Park restoration have catalyzed luxury development and cultural displacement.\citep{bloomberg2017, gould2012, moss2012} Yet, citywide analyses of how resilience infrastructure systematically influences resilience gentrification remain scarce. While localized studies — such as \citet{gould2021}’s examination of the Gowanus Canal and Hudson Yards' floodproofed construction, and the discussion of East Side Coastal Resiliency project by \citet{chiesi2022} — offer compelling evidence of *resilience* gentrification in NYC, they lack longitudinal, multi-scale assessments of displacement risks across neighborhoods.\citep{keenan2018, lees2022} This gap limits policymakers’ ability to mitigate unintended consequences of climate adaptation.
+
+This paper addresses that gap by conducting a spatial-temporal analysis of 'green' resilience infrastructure and neighborhood change across New York City (NYC) by asking whether proximity to resilience investments is associated with increasing rent burdens and displacement risk. It asks:
+
+-   Is proximity to resilience projects associated with rising rents and displacement risk?
+
+-   How do effects vary by neighborhood vulnerability (race, income, eviction rate)?
+
+In doing so, this study contributes to the growing literature on climate adaptation and urban inequality by empirically testing the mechanisms of resilience gentrification at the tract scale. It also responds to calls by scholars such as \citet{keenan2018} and \citet{shi2020} for more precise, infrastructure-linked studies that assess the distributive consequences of adaptation planning.
+
+## Literature Review
+
+### Resilience Gentrification: Conceptual Foundations
+
+Gentrification, first theorized by \citet{glass1964} and later expanded by \citet{smith1979}, is a process of neighborhood change driven by capital reinvestment, resulting in rising housing costs and demographic shifts. Central to this process is the rent gap—a disparity between current and potential land value that incentivizes disinvestment in marginalized areas followed by speculative reinvestment.\citep{smith1987} Empirical studies operationalize gentrification through composite indicators, including rising median incomes, shifts in racial/ethnic composition, increased educational attainment, and escalating rent burdens.\citep{anguelovski2022green, bai2023} These metrics reflect the dual economic and social dimensions of displacement, where market pressures and cultural transformations erode community stability.\citep{chan2021}
+
+Scholars have introduced the concept of "green gentrification"—displacement catalyzed by environmental improvements such as parks, flood control, or energy retrofits. Urban greening initiatives (UGIs), while lauded for ecological and public health benefits\citep{miakhel2024}, increasingly correlate with gentrification. These processes are not isolated but embedded in neoliberal urban governance, where sustainability agendas align with real estate valorization.\citep{shi2020, lees2022}
+
+Within green gentrification is 'resilience gentrification'.\citep{gould2021} While these are overlapping concepts, this paper will focus on the phenomenon of resilience gentrification specifically. This phenomenon describes how sustainability initiatives - particularly climate resilience infrastructure - become embedded within gentrification processes:
+
+-   Amenity-driven reinvestment: New urban infrastructure increases property values by 7-12% within 300m radius.\citep{conway2010}
+
+-   Risk-based redevelopment: Flood protection zones experience 18-25% faster price appreciation.\citep{keenan2018}
+
+-   Resilience branding: "Climate-proofed" neighborhoods attract premium investments.\citep{gould2021}
+
+In this framing, resilience and sustainability goals are often subsumed within redevelopment agendas that prioritize land revaluation and investor interests.\citep{bouzarovski2018, gould2021} Rather than causing eviction directly, these interventions alter local housing markets, attract wealthier residents, and displace long-standing, lower-income communities via rising costs.  The market absorbs and amplifies environmental investments, driving rent hikes, turnover, and cultural erasure in formerly disinvested areas.\citep{bouzarovski2018, shi2020}
+
+This pattern has been observed in cities across the globe. In Barcelona, new parks triggered demographic shifts tied to international capital flows.\citep{anguelovski2018barcelona} In Miami, elevation-driven property appreciation displaced lower-income communities under the guise of resilience.\citep{keenan2018} In Washington, DC, stormwater projects reduced the Black population in affected areas.\citep{chan2021} Even in non-Western contexts like Jakarta and the Netherlands, climate buffer infrastructure has resulted in forced relocation for the sake of environmental protection.\citep{warner2021}
+
+### Resilience Gentrification in NYC
+
+New York City offers a uniquely valuable context for analyzing climate-induced gentrification due to its policy intensity, data availability, and socio-spatial complexity. Since Hurricane Sandy, the city has invested over \$20 billion in resilience infrastructure, ranging from seawalls and greenways to public housing retrofits.\citep{nyc_orr_resiliency_program} These interventions unfold in a city where 40% of public housing units lie within flood zones, and where the legacy of redlining, disinvestment, and urban renewal continues to shape patterns of spatial injustice.\citep{anguelovski2022green} It also provides exceptionally detailed property and infrastructure data, enabling high-resolution spatial analysis.\citep{wired_mappluto_release} 
+
+Historically, Prospect Park’s restoration displaced working-class Black neighborhoods.\citep{gould2012} The High Line transformed Chelsea into a luxury enclave, despite planners’ stated intentions to benefit local residents.\citep{bloomberg2017, moss2012} Gowanus Canal’s green redevelopment followed Hurricane Sandy with upscale housing and commercial investment.\citep{gould2021} The ESCR project on Manhattan’s Lower East Side, though framed as inclusive, has been criticized for ignoring community input while enhancing land values.\citep{chiesi2022} \citet{maantay2018} found resilience and green gentrification dynamics around small-scale greening in Brooklyn, showing that even community gardens can increase nearby property values. \citet{jimenez2023} scale this analysis across Brooklyn and find consistent links between green infrastructure siting and indicators of gentrification. \citet{shi2020} and \citet{byers2021} further argue that NYC’s resilience investments serve to brand climate adaptation while raising land values and shifting neighborhood composition.
+
+### Analysis Methodology and Literature Gaps
+
+Although the literature has grown, few studies systematically link resilience infrastructure location to tract-level displacement. \citet{quinton2022} highlight the field’s over-reliance on case studies, static regression, and limited proxies for displacement. \citet{anguelovski2022green} call for longitudinal, multi-scalar analyses. This project responds by combining tract-level demographic data and spatial overlays of resilience projects and eviction cases to assess how greening influences market dynamics and displacement risk in NYC.
+
+Recent studies support this approach. \citet{conway2010} and \citet{hegerty2021} use spatial lag and autocorrelation models to capture property value shifts near greenspace. \citet{jain2021} and \citet{mauro2024} demonstrate the predictive value of demographic churn, rent pressure, and property transactions. \citet{droste2024} argue that greening's impact depends on context—centrality, park size, and connectivity—which are captured in this project through spatial proximity measures.
+
+To measure success or failure in detecting resilience-driven gentrification, this study defines tract-level exposure as the presence, timing, and intensity of resilience investments within or near census boundaries, operationalized through spatial joins and time-stamped infrastructure records. Success is evaluated by whether tract-level indicators—such as rising median rents, increasing shares of college-educated or white residents, and elevated eviction rates—systematically follow resilience project implementation, controlling for pre-treatment trends. Failure, conversely, would be indicated by a lack of statistically or substantively meaningful shifts in these indicators post-project. 
+
+These approaches directly respond to \citet{anguelovski2022green} and \citet{quinton2022}’s calls for temporally sensitive, multi-dimensional models, while operationalizing \citet{conway2010} and \citet{hegerty2021}'s' emphasis on spatial autocorrelation in value shifts. Ultimately, success is defined not only by detecting statistical significance, but by identifying patterns of stratified displacement risk that correspond to infrastructure placement and timing.
+
+## Data and Methods
+
+### Study Area and Scope
+
+This study focuses on NYC, encompassing all five boroughs—Manhattan, Brooklyn, Queens, the Bronx, and Staten Island—with specific emphasis on census tracts that intersect or lie within defined proximity to resilience infrastructure project footprints. The geographic scope includes both coastal and inland neighborhoods affected by green and grey infrastructure projects implemented as part of the city’s post–Hurricane Sandy climate adaptation strategy. These projects range from shoreline barriers and stormwater basins to bioswales, green roofs, and park redesigns.
+
+The analysis spans from 2013 to 2023. This 10-year window aligns with the implementation timeline of key planning initiatives such as Rebuild by Design, the NYC Green Infrastructure Program, and the East Side Coastal Resiliency project.\citep{nyc_dep_2023, hud_rebuild_2016} It also enables detection of both early and lagged effects on property values, rent dynamics, and socio-demographic composition.
+
+![Study area: Census tracts and resilience project locations in NYC.](../output/maps/resilience-project-locations.png){fig-align="center" width="80%"}
+
+_Figure 1. Census tracts (blue) and locations of resilience infrastructure projects (green) across NYC._
+
+### Data Sources
+
+Census tract-level socioeconomic variables were drawn from the American Community Survey (ACS) 5-Year Estimates\citep{acs_2023}, focusing on key displacement-relevant variables. Spatial footprints of resilience infrastructure were obtained from the NYC Mayor’s Office of Resiliency\citep{nyc_resiliency_2025} via the Recovery and Resiliency Projects Map, which catalogs flood barriers, bioswales, greenways, and park retrofits. To assess displacement pressure beyond rent and sales data, eviction filing records were obtained from NYC Open Data via the Department of Investigation and JustFix.nyc  \citep{evictions_data}. Data were aggregated to census tracts and joined by year. 
+
+### Variables and Indicators
+
+Following \citet{gould2012}, three central hypotheses guide the selection of variables: 
+
+-     the *greening whitens* hypothesis, which posits that racial and ethnic minorities will be displaced from neighborhoods surrounding climate resilience infrastructure; 
+-     the *greening richens* hypothesis, which anticipates the exclusion of low-income residents through class-based upgrading; 
+-     and the *greening raises rents* hypothesis, which expects increases in rent burdens and land value as a result of environmental improvements. These dynamics are captured through socio-demographic trends, economic indicators, and spatial proximity metrics.
+
+The primary dependent variables in this study represent measurable outcomes associated with displacement pressure. Median gross rent (ACS Table B25077) provides a longitudinal measure of housing affordability at the census tract level. Demographic composition is assessed using race and ethnicity data (Table B02001), enabling the identification of racialized displacement through observed declines in the Black, Hispanic, and other minoritized populations over time. The study also tracks poverty status (Table B17017), where reductions in the number or proportion of residents living below the poverty line may indicate income-based turnover. Educational attainment (Table B15003) serves as a proxy for socioeconomic upgrading, with increasing shares of college-educated residents signaling class-based demographic shifts. To assess housing instability and involuntary displacement directly, the analysis includes tract-level eviction filings provided by the NYC Department of Investigation’s Civil Enforcement Unit \citep{evictions_data}, which compiles residential eviction reports from city marshals.
+
+![Eviction density by census tract with resilience project overlay, NYC, 2013–2023.](../output/maps/eviction-heatmap-with-resilience-project-overlay.png){fig-align="center" width="80%"}
+
+_Figure 2. Eviction rates by census tract (shaded red) with outlines marking tracts exposed to resilience infrastructure projects in NYC, 2013–2023._
+
+The selection of variables reflects best practices in the literature, including those proposed by \citet{maantay2018}, \citet{conway2010}, and \citet{anguelovski2022green}, who emphasize the importance of integrating environmental proximity, real estate indicators, and socio-spatial vulnerability in detecting the impacts of urban greening on displacement.
+
+### Spatial Processing
+
+Spatial processing integrated tract-level demographic data with point-level resilience project locations across NYC (2013–2023) using Python’s GeoPandas \citep{geopandas} and Shapel \citep{shapely} libraries. Census tracts were reprojected to EPSG:2263, while resilience projects (flood barriers, bioswales, etc.) were cleaned, geocoded, and joined to tracts via spatial overlays to create exposure metrics (e.g., binary flags, project counts, typologies). Temporal alignment used project completion dates to generate lagged treatment indicators. Eviction records were geocoded and aggregated by tract-year to assess displacement pressure, with additional indicators (e.g., residential eviction rates) following \citep(maantay2018). ACS demographic data were merged with spatial layers to form a longitudinal panel, adopting a multi-modal fusion approach akin to \citet{eshtiyagh2023} for resilience gentrification analysis.
+
+## Results
+
+This study implements a **spatial error regression model** using the full panel of NYC census tracts. Resilience investments, by nature, may induce effects beyond the tracts in which they are located, either by catalyzing interest in adjacent areas or shifting development pressure outward. Standard OLS models that ignore spatial dependence risk underestimating such diffusion effects or misallocating them to local characteristics. Spatial models are essential in this context because resilience investments and housing dynamics often affect not just the targeted tract but also its neighbors.
+
+The analysis begins with a citywide tract-year panel dataset, engineering key features including one-year temporal lags of rent and treatment exposure (`rent_lag_1`, `treated_lag_1`), log population density, and interaction terms that capture treatment within socially and environmentally salient contexts, including poverty, racial composition, educational attainment, and coastal location. 
+
+Spatial structure is defined through a row-standardized Queen contiguity matrix $W$, which encodes whether two census tracts share a boundary or a vertex. This adjacency relationship is formalized as:
+
+$$
+w_{ij} =
+\begin{cases}
+1 & \text{if tract } i \text{ and } j \text{ share an edge or vertex, and } i \neq j \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+Each row is normalized to sum to 1, resulting in $w^*_{ij}$ values that represent relative influence rather than absolute connection counts. The resulting matrix captures the influence of neighboring tracts and is used to construct spatially lagged variables: $W y$ for `log_rent` and $W T$ for `has_resilience_project`.
+
+The estimation framework adopts the spatial error model (SEM), as formalized by \citet{anselin1988} and implemented via generalized method of moments (GMM) using the `GM_Error` estimator in the `spreg` module of PySAL \citep{pysal}. Unlike the spatial lag model, which embeds spatial dependence directly in the outcome, the spatial error model assumes the error term itself is spatially autocorrelated:
+
+$$
+y = X\beta + u \\
+u = \lambda W u + \epsilon
+$$
+
+Here, $\lambda$ captures the degree of spatial autocorrelation in the residuals. If omitted, such structure would bias coefficient estimates and violate classical regression assumptions. GMM estimation of SEM is computationally efficient and robust to non-normality, making it appropriate for large spatial panels.\citep{kelejian1998, lesage2009}
+
+| Variable                    | Coefficient | Std. Error | p-value   |
+|----------------------------|-------------|------------|-----------|
+| **Resilience Projects**    |             |            |           |
+| `has_resilience_project`   | -0.0673     | 0.0738     | 0.362     |
+| `proj_count`               | 0.0160      | 0.0084     | 0.057     |
+| **Temporal Lags**          |             |            |           |
+| `post_project_lag1`        | 0.0051      | 0.0027     | 0.062     |
+| `post_project_lag5`        | -0.0031     | 0.0027     | 0.261     |
+| **Demographics**           |             |            |           |
+| `log_population`           | -0.0214     | 0.0038     | <0.001 |
+| `race_white_share_lag_1`   | 0.0407      | 0.0067     | <0.001 |
+| `race_white_share_lag_3`   | -0.0497     | 0.0068     | <0.001 |
+| `poverty_rate_lag_3`       | 0.0086      | 0.0039     | 0.026   |
+| **Spatial Effects**        |             |            |           |
+| `W_log_rent`              | 0.1920      | 0.0045     | <0.001 |
+| **Year Fixed Effects**     |             |            |           |
+| `year_2022`               | 0.4345      | 0.0139     | <0.001 |
+| `year_2023`               | 0.3725      | 0.0151     | <0.001 |
+| **Spatial Error (λ)**     | -0.3209     | —          | —         |
+
+_Table 1: Selected coefficients from the SEM model estimating log rents in NYC (N = 44,484). Lambda reflects the estimated spatial error autocorrelation parameter. Note: $\lambda$ (lambda) reflects the estimated spatial error autocorrelation parameter._  
+
+The resulting SEM estimation offers critical insights into the relationship between resilience infrastructure and neighborhood rent dynamics in NYC. With a pseudo $R^2$ of 0.675 and a sum of squared residuals of 14,476.36, the model demonstrates strong explanatory power. The spatial error parameter ($\lambda$, estimated at -0.321) is both statistically and substantively significant, indicating that unobserved spatial processes negatively correlate across neighborhoods and that spatial autocorrelation in the residuals has been effectively addressed. This conclusion is further supported by the Moran’s I test on residuals, which yields a near-zero value of -0.0049 with a p-value below 0.001, confirming that the SEM specification has successfully accounted for spatial dependence in the error structure.
+
+![Moran’s I scatterplot of SEM residuals.](../output/figures/morans-scatterplot.png){fig-align="center" width="80%"}
+
+_Figure 3. Moran’s I scatterplot of spatial error model residuals (Moran’s I = -0.0049, p = 0.0000), showing the relationship between each observation’s residual and the spatially lagged residuals of its neighbors. A LOESS smoothing line indicates the absence of residual spatial autocorrelation._
+
+The direct effects of resilience infrastructure reveal a nuanced and largely non-linear relationship with local housing markets. The presence of any resilience project within a census tract is associated with a modest *decrease* in log rents, but this effect is not statistically significant (coefficient = -0.067, p = 0.362). However, when measured continuously, the number of projects per tract is positively and marginally significantly associated with rent increases (coefficient = 0.016, p = 0.057), suggesting a potential dose-response effect wherein cumulative exposure to resilience investments contributes to upward pressure on housing costs. 
+
+Temporal lag variables provide additional texture to this dynamic. In the first year following project implementation, tracts experienced an estimated 0.51% increase in  rent (p = 0.062), though this effect attenuates and becomes statistically indistinct in subsequent years. By the fifth year post-intervention, the association turns slightly negative (coefficient = -0.0031, p = 0.261), indicating that any immediate rent pressure may be short-lived or conditional on other neighborhood characteristics, but again, these findings are not statistically significant.
+
+ Population size exhibits a significant negative association with rent levels (coefficient = -0.021, p < 0.001), a finding that may reflect overcrowding, housing supply constraints, or disinvestment in densely populated tracts. Meanwhile, population density is positively but insignificantly associated with rents (coefficient = 0.0054, p = 0.225), suggesting that density alone does not drive housing costs. The lagged values of rent are among the most powerful predictors in the model, with the first, second, and third lags corresponding to 4.7%, 29.7%, and 36.3% increases in current rents, respectively (all p < 0.001).
+
+Racial composition exerts complex and temporally variable effects on rents. An increase in the white population share one year prior is associated with a 4.1% increase in current rents (p < 0.001), potentially reflecting neighborhood revalorization. However, this effect reverses over longer lags, with a three-year lag in white share associated with a 5.0% decrease in rents (p < 0.001), suggesting that initial demographic changes may be met with speculative investment that subsequently dissipates or triggers feedback effects. Although poverty rates lagged by one or two years do not exhibit statistically significant effects, a three-year lag shows a modest but significant positive association with rent (coefficient = 0.0086, p = 0.026), implying that market pressures may emerge in vulnerable areas after a delay.
+
+Spatial spillover effects are robustly present in the housing market. The spatially lagged rent variable (`W_log_rent`) is both highly statistically significant and substantively large (coefficient = 0.192, p < 0.001). In contrast, spatially lagged demographic and structural controls, such as poverty rates (`W_poverty_rate`: coefficient = -0.0011, p = 0.819) and population density (`W_log_pop_density`: coefficient = 0.0020, p = 0.616), do not exhibit significant effects. This asymmetry reinforces the primacy of spatial rent contagion over spatially diffused social conditions.
+
+The model captures strong temporal trends consistent with citywide housing inflation. Year fixed effects from 2015 through 2023 all show significant and progressively increasing rent levels relative to the baseline year. The year 2022 exhibits the largest marginal effect, with an estimated 43.5% increase in log rents (p < 0.001), while 2023 follows closely with a 37.2% increase (p < 0.001). These findings align with broader narratives of post-COVID real estate booms and policy-driven redevelopment in resilience-prioritized zones \citep{jchs2024}.
+
+## Discussion
+
+The SEM estimation yields contradicting and complex data into the relationship between climate resilience infrastructure and neighborhood change in NYC. While the presence of resilience projects initially appears negatively associated with log rents (-0.067), this effect is statistically insignificant (p=0.362). However, the positive coefficient for project count (0.016, p=0.057) and first-year post-treatment effect (0.005, p=0.062) suggest a modest, time-delayed rent inflation consistent with amenity-driven reinvestment theories.\citep{conway2010, gould2021} This aligns with the "greening raises rents" hypothesis, though the effect magnitude is substantially smaller than documented in paradigmatic green gentrification cases like the High Line.\citep{moss2012} The subsequent attenuation of coefficients in later years (e.g., -0.003 for lag 5) may reflect either policy interventions—such as the 2019 Housing Stability and Tenant Protection Act\citep{cssny2019}—or market saturation effects, where initial price premiums dissipate as supply adjusts.\citep{lees2022}
+
+Spatial dynamics reveal critical contingencies in displacement processes. The strong positive spatial lag for rent (0.192, p<0.001) confirms that housing markets operate through neighborhood spillovers, with price changes in one tract influencing adjacent areas.\citep{hegerty2021} However, the significant negative spatial error parameter ($\lambda = -0.321$) indicates a checkerboard-like patterning of residuals, suggesting unobserved heterogeneity in gentrification trajectories. This may stem from NYC's uneven policy landscape, where rent-stabilized buildings coexist with luxury developments\citep{shi2020}, or from displacement "leapfrogging" over buffer zones like parks or highways.\citep{droste2024} 
+
+![Key coefficient plot from spatial error model.](../output/figures/sem_coefficients.png){fig-align="center" width="80%"}
+
+_Figure 4. Selected coefficients from the spatial error model with 95% confidence intervals, filtered to exclude variables with near-zero effects ($|\beta| < 0.02$). The plot emphasizes strong predictors of rent change, including year fixed effects (2022 and 2023), lagged rents, racial composition, spatial lag of log rent, and the resilience project dummy. _
+
+The positive association between lagged white population share and rents (0.041, p<0.001) supports the "greening whitens" hypothesis.\citep{gould2012}, but the subsequent reversal in later years (-0.050, p<0.001) complicates this narrative. One interpretation is that initial racial turnover drives rent inflation, followed by market corrections or policy responses.\citep{warner2021} 
+
+In contrast, educational attainment shows no significant relationship with rents, challenging assumptions about class-based displacement.\citep{anguelovski2022green} The model's high pseudo $R^2$ (0.675) confirms its explanatory power, yet the residual spatial autocorrelation signals omitted variables—likely including hyper-local factors like rezoning or cultural displacement pressures.\citep{gearin2023}
+
+While the model identifies short-term rent increases proximate to projects, these effects are modest and time-bound, dwarfed by citywide market trends (e.g., the rent surge in 2022 and 2023\citep{jchs2024}). The results suggest that NYC's resilience investments—unlike high-profile green gentrification cases—may be partially decoupled from displacement due to policy interventions, targeted siting in disinvested areas, or countervailing disamenities like residual flood risk.\citep{keenan2018} However, the racialized rent dynamics and spatial spillovers underscore the need for proactive equity safeguards.
+
+Three policy implications emerge. First, the lagged treatment effects call for time-sensitive protections, such as temporary rent freezes in the 1–2 years following project completion. Second, the spatial contagion of rent changes necessitates regional anti-displacement strategies that extend beyond treated tracts. Finally, the racial turnover effects demand race-conscious planning tools, such as community land trusts in areas showing early demographic shifts. Future research should integrate cultural displacement metrics and parcel-level transaction data to address the model's residual spatial patterns. Ultimately, these findings refine theories of green gentrification by situating resilience infrastructure within broader urban political economies, where its distributive consequences depend on institutional and market contexts.\citep{anguelovski2022green, byers2021}
+
+## Conclusion
+
+This study offers new empirical evidence for the distributive consequences of climate resilience infrastructure in NYC. The SEM results underscore that resilience infrastructure—though framed as a universal good—interacts with preexisting spatial inequalities in ways that can stratify its benefits. The modest, time-delayed rent effects and spatial spillovers suggest that market actors interpret resilience investments as signals of future value, even when direct impacts are statistically weak. This creates a paradox: neighborhoods receiving protection may face displacement pressures, while those excluded from investments remain vulnerable to both climate hazards and economic marginalization. Without explicit anti-displacement safeguards, resilience planning risks reproducing the very inequities it seeks to remedy.
+
+The implications are clear. If climate adaptation is to be genuinely equitable, it must be decoupled from land valorization and speculative growth. This requires not only technical interventions, but institutional ones: policies that embed affordability protections, democratic governance mechanisms, and redistributive planning practices into the fabric of urban resilience. As \citet{keenan2018} and \citet{diezmartinez2022} argue, justice must be built into the design and implementation of climate infrastructure—not appended as an afterthought.
+
+Absent such measures, resilience resilience may reproduce the same injustices it claims to address. Displacement through flood protection is still displacement. The findings of this paper therefore contribute to a growing recognition that resilience, if left unchecked, may be a new frontier of environmental injustice. It is not enough to climate-proof the city; we must ensure that improvement does not mean exclusion. The right to remain must become a core metric of sustainable infrastructure, or else climate adaptation will deepen, rather than remedy, the urban inequalities it seeks to solve.
+
+## References {.unnumbered}
