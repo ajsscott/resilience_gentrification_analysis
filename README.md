@@ -9,24 +9,15 @@ This repository investigates whether resilience infrastructure investments in NY
 
 ## Author
 AJ Strauman-Scott
-M.S. in Data Science, City University of New York
-📍 New York, NY
+
 📫 ajstraumanscott@pm.me
 🔗 [LinkedIn](www.linkedin.com/in/ajstraumanscott) • [GitHub](https://github.com/ajsscott)
 
-## 👀 Quick Links
-- 📊 [Presentation of Results](./presentation)
-- 📄 [Academic Report](./report)
-- 📓 [Code & Notebooks](./notebooks)
-- 🧠 [Source Scripts](./src)
-- 🗃️ [Sample Input Data](./data/sample_inputs)
-
-## ⚙️ Reproducibility
-Clone this repo and run:
-
-```bash
-conda env create -f environment.yml
-```
+##  Quick Links
+-  [Presentation of Results](./straumanscott_resilience-gentrification-NYC-presentation.pdf)
+-  [Academic Report](./straumanscott_resilience-gentrification-NYC-report.pdf)
+-  [Code & Notebooks](./notebooks)
+-  [Source Scripts](./src)
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
