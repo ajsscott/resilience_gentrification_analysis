@@ -13,11 +13,21 @@ AJ Strauman-Scott
 📫 ajstraumanscott@pm.me
 🔗 [LinkedIn](www.linkedin.com/in/ajstraumanscott) • [GitHub](https://github.com/ajsscott)
 
+<<<<<<< Updated upstream
 ##  Quick Links
 -  [Presentation of Results](./straumanscott_resilience-gentrification-NYC-presentation.pdf)
 -  [Academic Report](./straumanscott_resilience-gentrification-NYC-report.pdf)
 -  [Code & Notebooks](./notebooks)
 -  [Source Scripts](./src)
+=======
+## 👀 Quick Links
+- 📊 [Presentation of Results](./presentation)
+- 📄 [Academic Report](./report)
+- 📓 [Code & Notebooks](./notebooks)
+- 🧠 [Source Scripts](./src)
+- 🗃️ [Sample Input Data](./data/sample_inputs)
+
+>>>>>>> Stashed changes
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
